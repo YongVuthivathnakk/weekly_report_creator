@@ -66,7 +66,7 @@ export const docStyles = StyleSheet.create({
   answerText: {
     fontSize: 10,
     color: "#444444",
-    paddingLeft: 20,
+    paddingLeft: 10,
     lineHeight: 1.6,
   },
 });

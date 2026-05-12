@@ -4,13 +4,14 @@ import { SubmitForm } from "@/app/action /form";
 import { resetForm, useFormStore } from "@/store/useFormStore";
 import React, { useActionState } from "react";
 import ReactQuill from "react-quill-new";
+import { Button } from "./ui/button";
 
 export default function Form() {
   const [state, action, isPending] = useActionState(SubmitForm, undefined);
   const formData = useFormStore((state) => state);
 
   return (
-    <div className="flex items-center mb-16 justify-center">
+    <div className="flex flex-col items-center m-8 justify-center">
       <form
         action={action}
         className="bg-white mt-4 rounded-2xl border border-gray-200 p-8 w-full max-w-xl shadow-sm"
@@ -146,20 +147,16 @@ export default function Form() {
           />
         </div>
         <div className="flex justify-between">
-          <button
+
+          <Button
             onClick={resetForm}
-            type="button"
-            className="bg-white hover:bg-gray-100 border-2 border-gray-900 text-gray-900 text-sm font-medium px-7 rounded-lg transition-colors"
-          >
+       
+            type="button" variant={"outline"}>
             Reset
-          </button>
-          <button
-            type="submit"
-            disabled
-            className={`bg-gray-900 hover:bg-gray-800 text-white text-sm font-medium px-7 py-2.5 rounded-lg transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed`}
-          >
+          </Button>
+          <Button type="submit" disabled>
             Save
-          </button>
+          </Button>
         </div>
       </form>
     </div>

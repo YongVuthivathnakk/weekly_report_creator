@@ -1,15 +1,21 @@
 "use client";
 
 import { Preview, usePreviewStore } from "@/store/usePreviewStore";
+import { FileTextIcon } from "lucide-react";
+import { Button } from "./ui/button";
 
 export default function Header() {
   return (
-    <nav className="text-center flex items-center justify-evently bg-gray-50 py-4 drop-shadow-sm">
-      <div className="flex-1">
-        <h1 className="text-xl font-bold">Weekly Report Writer</h1>
+    <nav className="sticky top-0 z-10 text-center flex items-center justify-between bg-gray-50 py-4 drop-shadow-sm px-4 md:px-8">
+      <div className="text-center">
+        <h1 className="text-xl text-center font-bold">Weekly Report Writer</h1>
       </div>
-      <PreviewButtons />
-      <div className="flex-1" />
+      <div className="flex items-center justify-center gap-4">
+        <PreviewButtons />
+        <Button variant={"outline"}>
+          <FileTextIcon  />
+        </Button>
+      </div>
     </nav>
   );
 }
@@ -18,29 +24,29 @@ function PreviewButtons() {
   const view = usePreviewStore((state) => state);
 
   return (
-    <div className="flex gap-4 py-2 px-4 mt-4 rounded-xl bg-gray-200 border-2 border-gray-300">
-      <button
-        onClick={() => view.setPreview(Preview.form)}
-        disabled={view.preview === Preview.form}
-        className={`rounded-lg py-1 px-4 capitalize transition-all ${
-          view.preview === Preview.form
-            ? "bg-black text-white"
-            : "text-gray-500 hover:text-black"
-        }`}
+    <>
+      {/* small screens — select dropdown */}
+      <select
+        className="md:hidden bg-gray-200 border-2 border-gray-300 rounded-lg py-2 px-4 text-sm font-medium"
+        value={view.preview}
+        onChange={(e) => view.setPreview(e.target.value as Preview)}
       >
-        Form
-      </button>
-      <button
-        onClick={() => view.setPreview(Preview.document)}
-        disabled={view.preview === Preview.document}
-        className={`rounded-lg py-1 px-4 capitalize transition-all ${
-          view.preview === Preview.document
-            ? "bg-black text-white"
-            : "text-gray-500 hover:text-black"
-        }`}
-      >
-        Document
-      </button>
-    </div>
+        <option value={Preview.form}>Form</option>
+        <option value={Preview.document}>Document</option>
+      </select>
+
+      {/* large screens — buttons */}
+      <div className="hidden md:flex gap-4 p-1 rounded-lg bg-gray-200 border-2 border-gray-300">
+
+        <Button onClick={() => view.setPreview(Preview.form)} variant={view.preview === Preview.form ? "default" : "ghost"} >
+          Form
+        </Button>
+      <Button onClick={() => view.setPreview(Preview.document)} variant={view.preview === Preview.document ? "default" : "ghost"}>
+          Documents
+        </Button>
+
+
+      </div>
+    </>
   );
 }
