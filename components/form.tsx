@@ -3,6 +3,7 @@
 import { SubmitForm } from "@/app/action /form";
 import { resetForm, useFormStore } from "@/store/useFormStore";
 import React, { useActionState } from "react";
+import ReactQuill from "react-quill-new";
 
 export default function Form() {
   const [state, action, isPending] = useActionState(SubmitForm, undefined);
@@ -78,6 +79,7 @@ export default function Form() {
               <p className="text-red-500 text-xs">{state.errors.firstAnswer}</p>
             )}
           </div>
+  
           <textarea
             id="q1"
             required
@@ -102,6 +104,7 @@ export default function Form() {
               </p>
             )}
           </div>
+
           <textarea
             id="q2"
             required
@@ -152,9 +155,10 @@ export default function Form() {
           </button>
           <button
             type="submit"
-            className={`bg-gray-900 hover:bg-gray-800 text-white text-sm font-medium px-7 py-2.5 rounded-lg transition-colors `}
+            disabled
+            className={`bg-gray-900 hover:bg-gray-800 text-white text-sm font-medium px-7 py-2.5 rounded-lg transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed`}
           >
-            Submit
+            Save
           </button>
         </div>
       </form>

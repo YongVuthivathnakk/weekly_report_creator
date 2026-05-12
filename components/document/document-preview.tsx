@@ -9,6 +9,7 @@ import {
 } from "@react-pdf/renderer";
 import { useFormStore } from "@/store/useFormStore";
 import { docStyles } from "./document-preview-style";
+import { mdToPdf } from "@/lib/mdToPdf";
 
 export default function DocumentPreview() {
   const { firstName, lastName, schoolId, answers } = useFormStore((s) => s);
@@ -67,33 +68,38 @@ export default function DocumentPreview() {
               </Text>
             </View>
           </View>
-
           {/* Questions */}
           <View style={docStyles.questionBlock}>
             <Text style={docStyles.questionText}>
               1. What have you completed this week?
             </Text>
-            <Text style={docStyles.answerText}>
-              {answers[0] || "{First answer}"}
-            </Text>
+            {answers[0] ? (
+              mdToPdf(answers[0])
+            ) : (
+              <Text style={docStyles.answerText}>{"{First answer}"}</Text>
+            )}
           </View>
 
           <View style={docStyles.questionBlock}>
             <Text style={docStyles.questionText}>
               2. What are your challenges?
             </Text>
-            <Text style={docStyles.answerText}>
-              {answers[1] || "{Second answer}"}
-            </Text>
+            {answers[1] ? (
+              mdToPdf(answers[1])
+            ) : (
+              <Text style={docStyles.answerText}>{"{Second answer}"}</Text>
+            )}
           </View>
 
           <View style={docStyles.questionBlock}>
             <Text style={docStyles.questionText}>
               3. What are you planning to do next week?
             </Text>
-            <Text style={docStyles.answerText}>
-              {answers[2] || "{Third answer}"}
-            </Text>
+            {answers[2] ? (
+              mdToPdf(answers[2])
+            ) : (
+              <Text style={docStyles.answerText}>{"{Third answer}"}</Text>
+            )}
           </View>
         </Page>
       </Document>
