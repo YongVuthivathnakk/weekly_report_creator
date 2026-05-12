@@ -13,7 +13,7 @@ export default function Header() {
       <div className="flex items-center justify-center gap-4">
         <PreviewButtons />
         <Button variant={"outline"}>
-          <FileTextIcon  />
+          <FileTextIcon />
         </Button>
       </div>
     </nav>
@@ -37,15 +37,18 @@ function PreviewButtons() {
 
       {/* large screens — buttons */}
       <div className="hidden md:flex gap-4 p-1 rounded-lg bg-gray-200 border-2 border-gray-300">
-
-        <Button onClick={() => view.setPreview(Preview.form)} variant={view.preview === Preview.form ? "default" : "ghost"} >
+        <Button
+          onClick={() => view.setPreview(Preview.form)}
+          variant={view.preview === Preview.form ? "default" : "ghost"}
+        >
           Form
         </Button>
-      <Button onClick={() => view.setPreview(Preview.document)} variant={view.preview === Preview.document ? "default" : "ghost"}>
+        <Button
+          onClick={() => view.setPreview(Preview.document)}
+          variant={view.preview === Preview.document ? "default" : "ghost"}
+        >
           Documents
         </Button>
-
-
       </div>
     </>
   );

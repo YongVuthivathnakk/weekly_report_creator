@@ -12,7 +12,7 @@ import { docStyles } from "./document-preview-style";
 import { mdToPdf } from "@/lib/mdToPdf";
 
 export default function DocumentPreview() {
-  const { firstName, lastName, schoolId, answers } = useFormStore((s) => s);
+  const { firstName, lastName, schoolId, answers, date } = useFormStore((s) => s);
 
   const fullName = `${firstName} ${lastName}`;
 
@@ -62,7 +62,7 @@ export default function DocumentPreview() {
                 <Text style={docStyles.infoColon}>:</Text>
                 <Text style={docStyles.infoValue}>
                   {" "}
-                  {new Date().toLocaleDateString("en-US", {
+                  {date.toLocaleDateString("en-US", {
                     day: "numeric",
                     month: "long",
                     year: "numeric",

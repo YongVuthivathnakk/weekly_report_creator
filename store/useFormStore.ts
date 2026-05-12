@@ -9,6 +9,7 @@ export const useFormStore = create<Form>()(
     lastName: "",
     schoolId: "",
     answers: ["", "", ""],
+    date: new Date
   })),
 );
 

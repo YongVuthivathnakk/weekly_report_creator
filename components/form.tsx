@@ -5,11 +5,13 @@ import { resetForm, useFormStore } from "@/store/useFormStore";
 import React, { useActionState } from "react";
 import ReactQuill from "react-quill-new";
 import { Button } from "./ui/button";
+import DatePicker from "./date-picker";
+import { Preview, usePreviewStore } from "@/store/usePreviewStore";
 
 export default function Form() {
   const [state, action, isPending] = useActionState(SubmitForm, undefined);
   const formData = useFormStore((state) => state);
-
+  const view = usePreviewStore((state) => state);
   return (
     <div className="flex flex-col items-center m-8 justify-center">
       <form
@@ -23,6 +25,7 @@ export default function Form() {
           Please fill in the form below.
         </p>
         <div className="grid grid-cols-2 gap-3 mb-3">
+          {/* First Name */}
           <input
             type="text"
             value={formData.firstName}
@@ -36,6 +39,7 @@ export default function Form() {
             placeholder="First name"
             className="col-span-1 px-4 py-2.5 rounded-lg border border-gray-200 bg-gray-50 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300"
           />
+          {/* Last Name */}
           <input
             type="text"
             name="lastName"
@@ -55,7 +59,8 @@ export default function Form() {
             <p className="text-red-500 text-xs">{state.errors.lastName}</p>
           )}
         </div>
-        <div className="grid grid-cols-1 gap-3 mb-3">
+        <div className="grid grid-cols-2 gap-3 mb-3">
+          {/* School Id */}
           <input
             required
             value={formData.schoolId}
@@ -69,6 +74,10 @@ export default function Form() {
             placeholder="School ID"
             className="col-span-1 px-4 py-2.5 rounded-lg border border-gray-200 bg-gray-50 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300"
           />
+          <DatePicker
+            date={formData.date}
+            setDate={(date) => useFormStore.setState({ date })}
+          />
         </div>
         {state?.errors?.schoolId && (
           <p className="text-red-500 text-xs">{state.errors.schoolId}</p>
@@ -80,7 +89,7 @@ export default function Form() {
               <p className="text-red-500 text-xs">{state.errors.firstAnswer}</p>
             )}
           </div>
-  
+
           <textarea
             id="q1"
             required
@@ -147,15 +156,11 @@ export default function Form() {
           />
         </div>
         <div className="flex justify-between">
-
-          <Button
-            onClick={resetForm}
-       
-            type="button" variant={"outline"}>
+          <Button onClick={resetForm} type="button" variant={"outline"}>
             Reset
           </Button>
-          <Button type="submit" disabled>
-            Save
+          <Button type="submit" onClick={() => view.setPreview(Preview.document)}>
+            Preview
           </Button>
         </div>
       </form>
