@@ -16,6 +16,15 @@ import { HistoryCard } from "./history-card";
 import { copyForm } from "@/store/useFormStore";
 import { hi } from "date-fns/locale";
 import Devider from "./devider";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 
 export default function Header() {
   return (
@@ -36,18 +45,24 @@ function PreviewButtons() {
 
   return (
     <>
-      {/* small screens — select dropdown */}
-      <select
-        className="md:hidden bg-gray-200 border-2 border-gray-300 rounded-lg py-2 px-4 text-sm font-medium"
-        value={view.preview}
-        onChange={(e) => view.setPreview(e.target.value as Preview)}
+      <Select
+        defaultValue={view.preview}
+        onValueChange={(value) => view.setPreview(value as Preview)}
       >
-        <option value={Preview.form}>Form</option>
-        <option value={Preview.document}>Document</option>
-      </select>
+        <SelectTrigger className="w-full md:hidden max-w-48">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            <SelectLabel>Fruits</SelectLabel>
+            <SelectItem value={Preview.form}>Form</SelectItem>
+            <SelectItem value={Preview.document}>Document</SelectItem>
+          </SelectGroup>
+        </SelectContent>
+      </Select>
 
       {/* large screens — buttons */}
-      <div className="hidden md:flex gap-4 rounded-lg bg-gray-200 border-1 border-gray-300">
+      <div className="hidden md:flex gap-1 rounded-lg bg-gray-200 border-1 border-gray-300">
         <Button
           onClick={() => view.setPreview(Preview.form)}
           variant={view.preview === Preview.form ? "default" : "ghost"}
