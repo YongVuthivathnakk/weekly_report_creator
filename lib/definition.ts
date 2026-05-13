@@ -27,6 +27,9 @@ export const SubmitFormSchema = z.object({
     .string()
     .min(10, { error: "Answer must be at least 10 characters long." })
     .trim(),
+  
+  date: z.coerce.date({ error: "Date is required." }),
+
 });
 
 export type FormState =
@@ -38,6 +41,7 @@ export type FormState =
         firstAnswer?: string[];
         secondAnswer?: string[];
         thirdAnswer?: string[];
+        date?: string[];
       };
       message?: string;
     }

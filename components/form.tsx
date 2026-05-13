@@ -2,16 +2,21 @@
 
 import { SubmitForm } from "@/app/action /form";
 import { resetForm, useFormStore } from "@/store/useFormStore";
-import React, { useActionState } from "react";
+import React, { useActionState, useEffect } from "react";
 import ReactQuill from "react-quill-new";
 import { Button } from "./ui/button";
 import DatePicker from "./date-picker";
-import { Preview, usePreviewStore } from "@/store/usePreviewStore";
+import { useHistoryStore } from "@/store/useHistoryStore";
 
 export default function Form() {
   const [state, action, isPending] = useActionState(SubmitForm, undefined);
   const formData = useFormStore((state) => state);
-  const view = usePreviewStore((state) => state);
+  const historyStore = useHistoryStore((state) => state);
+
+  useEffect(() => {
+    historyStore.actions.addToHistory(state?.data)
+  }, [state?.data]);
+
   return (
     <div className="flex flex-col items-center m-8 justify-center">
       <form
@@ -30,8 +35,8 @@ export default function Form() {
             type="text"
             value={formData.firstName}
             onChange={(e) =>
-              useFormStore.setState((s) => {
-                s.firstName = e.target.value;
+              useFormStore.setState({
+                firstName: e.target.value,
               })
             }
             name="firstName"
@@ -45,8 +50,8 @@ export default function Form() {
             name="lastName"
             value={formData.lastName}
             onChange={(e) =>
-              useFormStore.setState((s) => {
-                s.lastName = e.target.value;
+              useFormStore.setState({
+                lastName: e.target.value,
               })
             }
             placeholder="Last name"
@@ -65,8 +70,8 @@ export default function Form() {
             required
             value={formData.schoolId}
             onChange={(e) =>
-              useFormStore.setState((s) => {
-                s.schoolId = e.target.value;
+              useFormStore.setState({
+                schoolId: e.target.value,
               })
             }
             type="text"
@@ -78,7 +83,17 @@ export default function Form() {
             date={formData.date}
             setDate={(date) => useFormStore.setState({ date })}
           />
+          <input
+            type="hidden"
+            name="date"
+            value={
+              formData.date instanceof Date ? formData.date.toISOString() : ""
+            }
+          />
         </div>
+        {state?.errors?.date && (
+          <p className="text-red-500 text-xs">{state.errors.date}</p>
+        )}
         {state?.errors?.schoolId && (
           <p className="text-red-500 text-xs">{state.errors.schoolId}</p>
         )}
@@ -159,9 +174,7 @@ export default function Form() {
           <Button onClick={resetForm} type="button" variant={"outline"}>
             Reset
           </Button>
-          <Button type="submit" onClick={() => view.setPreview(Preview.document)}>
-            Preview
-          </Button>
+          <Button type="submit">Save</Button>
         </div>
       </form>
     </div>

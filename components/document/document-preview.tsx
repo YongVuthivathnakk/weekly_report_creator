@@ -61,12 +61,11 @@ export default function DocumentPreview() {
                 <Text style={docStyles.infoLabel}>Date</Text>
                 <Text style={docStyles.infoColon}>:</Text>
                 <Text style={docStyles.infoValue}>
-                  {" "}
-                  {date.toLocaleDateString("en-US", {
+                  { date ?  new Date(date).toLocaleDateString("en-US", {
                     day: "numeric",
                     month: "long",
                     year: "numeric",
-                  })}
+                  }) : " "}
                 </Text>
               </View>
             </View>
