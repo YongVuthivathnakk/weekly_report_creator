@@ -1,9 +1,10 @@
 import { Form } from "@/types/form";
+import { toast } from "sonner";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 
-const formKey = "historyForm";
+const FORM_KEY = "historyForm";
 
 type HistoryStore = {
   history: Form[];
@@ -28,11 +29,12 @@ export const useHistoryStore = create<HistoryStore>()(
               set((state: HistoryStore) => {
                   state.history = state.history.filter(h => h.id !== id)
               })
+              toast.success("Form has been removed successfully.")
           }
       },
     })),
       {
-          name: formKey,
+          name: FORM_KEY,
         partialize: (state) => ({history: state.history})
      },
   ),

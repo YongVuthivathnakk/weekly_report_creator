@@ -114,7 +114,7 @@ function Content() {
         <HistoryCard
           key={history.id}
           handleDelete={() => deleteHistoryById(history.id)}
-          handleCopy={() => copyForm}
+          handleCopy={() => copyForm(history)}
           history={history}
         />
       ))}

@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 import { Form } from "@/types/form";
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
+import { toast } from "sonner";
 
 
 export const useFormStore = create<Form>()(
@@ -37,4 +38,5 @@ export function copyForm(form: Form) {
       (s.date = form.date);
     
   });
+  toast.success("Form has been copied successfully")
 }

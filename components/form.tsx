@@ -3,19 +3,31 @@
 import { SubmitForm } from "@/app/action /form";
 import { resetForm, useFormStore } from "@/store/useFormStore";
 import React, { useActionState, useEffect } from "react";
-import ReactQuill from "react-quill-new";
+
 import { Button } from "./ui/button";
 import DatePicker from "./date-picker";
 import { useHistoryStore } from "@/store/useHistoryStore";
+import { LoaderCircleIcon } from "lucide-react";
+import { toast } from "sonner";
 
 export default function Form() {
-  const [state, action, isPending] = useActionState(SubmitForm, undefined);
   const formData = useFormStore((state) => state);
   const historyStore = useHistoryStore((state) => state);
+  const [state, action, isPending] = useActionState(SubmitForm, undefined);
 
   useEffect(() => {
-    historyStore.actions.addToHistory(state?.data)
-  }, [state?.data]);
+    if (state === undefined) return;
+
+    if (state.errors) {
+      toast.error("Please fix the errors in the form!");
+      return;
+    }
+
+    if (state.data) {
+      historyStore.actions.addToHistory(state.data);
+      toast.success("Report saved!");
+    }
+  }, [state]);
 
   return (
     <div className="flex flex-col items-center m-8 justify-center">
@@ -33,7 +45,7 @@ export default function Form() {
           {/* First Name */}
           <input
             type="text"
-            value={formData.firstName}
+            value={formData.firstName.trim()}
             onChange={(e) =>
               useFormStore.setState({
                 firstName: e.target.value,
@@ -48,7 +60,7 @@ export default function Form() {
           <input
             type="text"
             name="lastName"
-            value={formData.lastName}
+            value={formData.lastName.trim()}
             onChange={(e) =>
               useFormStore.setState({
                 lastName: e.target.value,
@@ -68,7 +80,7 @@ export default function Form() {
           {/* School Id */}
           <input
             required
-            value={formData.schoolId}
+            value={formData.schoolId.trim()}
             onChange={(e) =>
               useFormStore.setState({
                 schoolId: e.target.value,
@@ -174,7 +186,13 @@ export default function Form() {
           <Button onClick={resetForm} type="button" variant={"outline"}>
             Reset
           </Button>
-          <Button type="submit">Save</Button>
+          <Button type="submit" disabled={isPending}>
+            {isPending ? (
+              <LoaderCircleIcon className="animate-spin" />
+            ) : (
+              "Save Form"
+            )}
+          </Button>
         </div>
       </form>
     </div>

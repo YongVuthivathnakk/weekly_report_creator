@@ -14,7 +14,7 @@ import { mdToPdf } from "@/lib/mdToPdf";
 export default function DocumentPreview() {
   const { firstName, lastName, schoolId, answers, date } = useFormStore((s) => s);
 
-  const fullName = `${firstName} ${lastName}`;
+  const fullName = `${lastName} ${firstName}`;
 
   return (
 
